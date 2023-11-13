@@ -111,5 +111,4 @@ source "package/uclibc/Config.in"
 source "package/glibc/Config.in"
 source "package/binutils/Config.in.host"
 source "package/gcc/Config.in.host"
-source "package/gcc/Config.in"
 endif

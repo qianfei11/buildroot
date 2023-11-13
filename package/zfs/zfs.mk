@@ -4,19 +4,17 @@
 #
 ################################################################################
 
-ZFS_VERSION = 2.1.12
+ZFS_VERSION = 2.1.6
 ZFS_SITE = https://github.com/openzfs/zfs/releases/download/zfs-$(ZFS_VERSION)
 ZFS_PATCH = https://github.com/openzfs/zfs/commit/bc3f12bfac152a0c28951cec92340ba14f9ccee9.patch
-ZFS_SELINUX_MODULES = zfs
 ZFS_LICENSE = CDDL
 ZFS_LICENSE_FILES = LICENSE COPYRIGHT
 ZFS_CPE_ID_VENDOR = openzfs
 ZFS_CPE_ID_PRODUCT = openzfs
 
-# 0001-removal-of-LegacyVersion-broke-ax_python_dev.m4.patch
 ZFS_AUTORECONF = YES
 
-ZFS_DEPENDENCIES = libaio openssl udev util-linux zlib libcurl linux
+ZFS_DEPENDENCIES = libaio openssl udev util-linux zlib libcurl
 
 # sysvinit installs only a commented-out modules-load.d/ config file
 ZFS_CONF_OPTS = \
@@ -80,7 +78,5 @@ define ZFS_LINUX_CONFIG_FIXUPS
 	$(call KCONFIG_ENABLE_OPT,CONFIG_ZLIB_INFLATE)
 endef
 
-# Even though zfs builds a kernel module, it gets built directly by
-# the autotools logic, so we don't use the kernel-module
-# infrastructure.
+$(eval $(kernel-module))
 $(eval $(autotools-package))

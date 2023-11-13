@@ -4,11 +4,12 @@
 #
 ################################################################################
 
-LSOF_VERSION = 4.98.0
+LSOF_VERSION = 4.96.3
 LSOF_SITE = $(call github,lsof-org,lsof,$(LSOF_VERSION))
 LSOF_LICENSE = lsof license
-LSOF_LICENSE_FILES = COPYING
-LSOF_CPE_ID_VENDOR = lsof_project
+# License is repeated in each file, this is a relatively small one.
+# It is also defined in 00README, but that contains a lot of other cruft.
+LSOF_LICENSE_FILES = dialects/linux/dproto.h
 
 ifeq ($(BR2_PACKAGE_LIBTIRPC),y)
 LSOF_DEPENDENCIES += libtirpc

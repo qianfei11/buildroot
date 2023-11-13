@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-OPENRC_VERSION = 0.51
+OPENRC_VERSION = 0.43.3
 OPENRC_SITE = $(call github,OpenRC,openrc,$(OPENRC_VERSION))
 OPENRC_LICENSE = BSD-2-Clause
 OPENRC_LICENSE_FILES = LICENSE
@@ -12,45 +12,39 @@ OPENRC_CPE_ID_VENDOR = openrc_project
 
 OPENRC_DEPENDENCIES = ncurses
 
-OPENRC_CONF_OPTS = \
-	-Dos=Linux \
-	-Dlibrcdir=/usr/libexec/rc \
-	-Dpkgconfig=false \
-	-Dsysvinit=true \
-	-Drootprefix=/ \
-	-Dbranding="\"Buildroot $(BR2_VERSION_FULL)\""
+# set LIBNAME so openrc puts files in proper directories and sets proper
+# paths in installed files. Since in buildroot /lib64 and /lib32 always
+# points to /lib, it's safe to hardcode it to "lib"
+OPENRC_MAKE_OPTS = \
+	LIBNAME=lib \
+	LIBEXECDIR=/usr/libexec/rc \
+	MKPKGCONFIG=no \
+	MKSYSVINIT=yes \
+	BRANDING="Buildroot $(BR2_VERSION_FULL)" \
+	CC=$(TARGET_CC)
 
-ifeq ($(BR2_PACKAGE_BASH_COMPLETION),y)
-OPENRC_CONF_OPTS += -Dbash-completions=true
+ifeq ($(BR2_SHARED_LIBS),y)
+OPENRC_MAKE_OPTS += MKSTATICLIBS=no
 else
-OPENRC_CONF_OPTS += -Dbash-completions=false
+OPENRC_MAKE_OPTS += MKSTATICLIBS=yes
 endif
 
 ifeq ($(BR2_PACKAGE_LIBSELINUX),y)
-OPENRC_CONF_OPTS += -Dselinux=enabled
+OPENRC_MAKE_OPTS += MKSELINUX=yes
 OPENRC_DEPENDENCIES += libselinux
 else
-OPENRC_CONF_OPTS += -Dselinux=disabled
+OPENRC_MAKE_OPTS += MKSELINUX=no
 endif
 
-ifeq ($(BR2_PACKAGE_LINUX_PAM),y)
-OPENRC_CONF_OPTS += -Dpam=true
-OPENRC_DEPENDENCIES += linux-pam
-else
-OPENRC_CONF_OPTS += -Dpam=false
-endif
+define OPENRC_BUILD_CMDS
+	$(MAKE) $(OPENRC_MAKE_OPTS) -C $(@D)
+endef
 
-ifeq ($(BR2_ROOTFS_MERGED_USR),y)
-OPENRC_CONF_OPTS += -Dsplit-usr=false
-else
-OPENRC_CONF_OPTS += -Dsplit-usr=true
-endif
-
-define OPENRC_INSTALL_SYSV_RCS_SCRIPT
+define OPENRC_INSTALL_TARGET_CMDS
+	$(MAKE) $(OPENRC_MAKE_OPTS) DESTDIR=$(TARGET_DIR) -C $(@D) install
 	$(INSTALL) -D -m 0755 $(OPENRC_PKGDIR)/sysv-rcs \
 		$(TARGET_DIR)/etc/init.d/sysv-rcs
 endef
-OPENRC_POST_INSTALL_TARGET_HOOKS += OPENRC_INSTALL_SYSV_RCS_SCRIPT
 
 ifeq ($(BR2_PACKAGE_KBD),)
 # keymaps and save-keymaps require kbd_mode and dumpkeys, respectively, so
@@ -96,4 +90,4 @@ endef
 OPENRC_TARGET_FINALIZE_HOOKS += OPENRC_SET_GETTY
 endif # BR2_TARGET_GENERIC_GETTY
 
-$(eval $(meson-package))
+$(eval $(generic-package))

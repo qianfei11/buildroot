@@ -28,10 +28,6 @@ Result of the build
 ===================
 output/images/
 +-- am335x-boneblack.dtb
-+-- am335x-boneblack-wireless.dtb
-+-- am335x-boneblue.dtb
-+-- am335x-bonegreen.dtb
-+-- am335x-bonegreen-wireless.dtb
 +-- am335x-bone.dtb
 +-- am335x-evm.dtb
 +-- am335x-evmsk.dtb

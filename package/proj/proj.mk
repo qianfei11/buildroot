@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-PROJ_VERSION = 9.3.0
+PROJ_VERSION = 8.1.1
 PROJ_SITE = http://download.osgeo.org/proj
 PROJ_LICENSE = MIT
 PROJ_LICENSE_FILES = COPYING
@@ -19,23 +19,22 @@ PROJ_CFLAGS += -O0
 PROJ_CXXFLAGS += -O0
 endif
 
-PROJ_CONF_OPTS = \
-	-DBUILD_APPS=OFF \
-	-DCMAKE_C_FLAGS="$(PROJ_CFLAGS)" \
-	-DCMAKE_CXX_FLAGS="$(PROJ_CXXFLAGS)"
+PROJ_CONF_ENV = \
+	CFLAGS="$(PROJ_CFLAGS)" \
+	CXXFLAGS="$(PROJ_CXXFLAGS)"
 
 ifeq ($(BR2_PACKAGE_LIBCURL),y)
 PROJ_DEPENDENCIES += libcurl
-PROJ_CONF_OPTS += -DENABLE_CURL=ON
+PROJ_CONF_OPTS += --with-curl=$(STAGING_DIR)/usr/bin/curl-config
 else
-PROJ_CONF_OPTS += -DENABLE_CURL=OFF
+PROJ_CONF_OPTS += --without-curl
 endif
 
 ifeq ($(BR2_PACKAGE_TIFF),y)
 PROJ_DEPENDENCIES += tiff
-PROJ_CONF_OPTS += -DENABLE_TIFF=ON
+PROJ_CONF_OPTS += --enable-tiff
 else
-PROJ_CONF_OPTS += -DENABLE_TIFF=OFF
+PROJ_CONF_OPTS += --disable-tiff
 endif
 
-$(eval $(cmake-package))
+$(eval $(autotools-package))

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SWUPDATE_VERSION = 2023.05
+SWUPDATE_VERSION = 2022.05
 SWUPDATE_SITE = $(call github,sbabic,swupdate,$(SWUPDATE_VERSION))
 SWUPDATE_LICENSE = GPL-2.0, GPL-2.0+, LGPL-2.1+, MIT, ISC, BSD-1-Clause, BSD-3-Clause, CC0-1.0, CC-BY-SA-4.0, OFL-1.1
 SWUPDATE_LICENSE_FILES = LICENSES/BSD-1-Clause.txt \
@@ -17,15 +17,11 @@ SWUPDATE_LICENSE_FILES = LICENSES/BSD-1-Clause.txt \
 	LICENSES/LGPL-2.1-or-later.txt \
 	LICENSES/MIT.txt \
 	LICENSES/OFL-1.1.txt
-SWUPDATE_INSTALL_STAGING = YES
 
 # swupdate uses $CROSS-cc instead of $CROSS-gcc, which is not
 # available in all external toolchains, and use CC for linking. Ensure
 # TARGET_CC is used for both.
 SWUPDATE_MAKE_ENV = CC="$(TARGET_CC)" LD="$(TARGET_CC)" SKIP_STRIP=y
-
-# we don't package EFI Boot Guard/libebgenv
-SWUPDATE_MAKE_ENV += HAVE_LIBEBGENV=n
 
 # swupdate bundles its own version of mongoose (version 6.16)
 
@@ -87,9 +83,6 @@ endif
 
 ifeq ($(BR2_PACKAGE_LIBUBOOTENV),y)
 SWUPDATE_DEPENDENCIES += libubootenv
-SWUPDATE_MAKE_ENV += HAVE_LIBUBOOTENV=y
-else
-SWUPDATE_MAKE_ENV += HAVE_LIBUBOOTENV=n
 endif
 
 ifeq ($(BR2_PACKAGE_LIBURIPARSER),y)
@@ -231,12 +224,6 @@ endef
 
 define SWUPDATE_BUILD_CMDS
 	$(TARGET_MAKE_ENV) $(SWUPDATE_MAKE_ENV) $(MAKE) -C $(@D) $(SWUPDATE_MAKE_OPTS)
-endef
-
-define SWUPDATE_INSTALL_STAGING_CMDS
-	$(TARGET_MAKE_ENV) $(SWUPDATE_MAKE_ENV) $(MAKE) -C $(@D) \
-		$(SWUPDATE_MAKE_OPTS) DESTDIR=$(STAGING_DIR) \
-		install
 endef
 
 define SWUPDATE_INSTALL_TARGET_CMDS

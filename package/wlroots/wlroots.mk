@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-WLROOTS_VERSION = 0.16.2
+WLROOTS_VERSION = 0.15.1
 WLROOTS_SITE = https://gitlab.freedesktop.org/wlroots/wlroots/-/releases/$(WLROOTS_VERSION)/downloads
 WLROOTS_LICENSE = MIT
 WLROOTS_LICENSE_FILES = LICENSE
@@ -30,12 +30,8 @@ WLROOTS_BACKENDS = libinput drm
 
 ifeq ($(BR2_PACKAGE_WLROOTS_X11),y)
 WLROOTS_BACKENDS += x11
-WLROOTS_DEPENDENCIES += libxcb xcb-util-wm xcb-util-renderutil xlib_libX11
-endif
-
-ifeq ($(BR2_PACKAGE_WLROOTS_XWAYLAND),y)
 WLROOTS_CONF_OPTS += -Dxwayland=enabled
-WLROOTS_DEPENDENCIES += libxcb xcb-util-wm xwayland
+WLROOTS_DEPENDENCIES += libxcb xcb-util-wm xcb-util-renderutil xlib_libX11
 else
 WLROOTS_CONF_OPTS += -Dxwayland=disabled
 endif

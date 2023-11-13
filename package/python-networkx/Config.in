@@ -1,5 +1,6 @@
 config BR2_PACKAGE_PYTHON_NETWORKX
 	bool "python-networkx"
+	select BR2_PACKAGE_PYTHON_DECORATOR # runtime
 	help
 	  A Python package for the creation, manipulation,
 	  and study of the structure, dynamics, and

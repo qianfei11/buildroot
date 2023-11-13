@@ -32,13 +32,9 @@ class TestOpensshBase(infra.basetest.BRTest):
 
 
 class TestOpenSshuClibc(TestOpensshBase):
-    config = \
+    config = infra.basetest.BASIC_TOOLCHAIN_CONFIG + \
         TestOpensshBase.opensshconfig + \
         """
-        BR2_arm=y
-        BR2_TOOLCHAIN_EXTERNAL=y
-        BR2_TOOLCHAIN_EXTERNAL_BOOTLIN=y
-        BR2_TOOLCHAIN_EXTERNAL_BOOTLIN_ARMV5_EABI_UCLIBC_STABLE=y
         BR2_TARGET_ROOTFS_CPIO=y
         """
 
@@ -47,14 +43,12 @@ class TestOpenSshuClibc(TestOpensshBase):
 
 
 class TestOpenSshGlibc(TestOpensshBase):
-
     config = \
         TestOpensshBase.opensshconfig + \
         """
         BR2_arm=y
         BR2_TOOLCHAIN_EXTERNAL=y
         BR2_TOOLCHAIN_EXTERNAL_BOOTLIN=y
-        BR2_TOOLCHAIN_EXTERNAL_BOOTLIN_ARMV5_EABI_GLIBC_BLEEDING_EDGE=y
         BR2_PACKAGE_RNG_TOOLS=y
         BR2_TARGET_ROOTFS_CPIO=y
         """

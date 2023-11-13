@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 #
 # Original version by Robert Leslie
 # <rob@mars.org>, edited by iwj and cs

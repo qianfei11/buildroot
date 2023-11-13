@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-TIFF_VERSION = 4.6.0
+TIFF_VERSION = 4.5.0
 TIFF_SITE = http://download.osgeo.org/libtiff
 TIFF_LICENSE = tiff license
 TIFF_LICENSE_FILES = LICENSE.md
@@ -16,13 +16,16 @@ TIFF_INSTALL_STAGING = YES
 # support in tiff, or that would create a circular dependency.
 TIFF_CONF_OPTS = \
 	--disable-contrib \
+	--disable-cxx \
 	--disable-tests \
-	--disable-webp
+	--disable-webp \
+	--without-x
 
 TIFF_DEPENDENCIES = host-pkgconf
 
 HOST_TIFF_CONF_OPTS = \
 	--disable-cxx \
+	--without-x \
 	--disable-zlib \
 	--disable-libdeflate \
 	--disable-lzma \
@@ -31,12 +34,6 @@ HOST_TIFF_CONF_OPTS = \
 	--disable-webp \
 	--disable-zstd
 HOST_TIFF_DEPENDENCIES = host-pkgconf
-
-ifeq ($(BR2_INSTALL_LIBSTDCPP),y)
-TIFF_CONF_OPTS += --enable-cxx
-else
-TIFF_CONF_OPTS += --disable-cxx
-endif
 
 ifneq ($(BR2_PACKAGE_TIFF_CCITT),y)
 TIFF_CONF_OPTS += --disable-ccitt

@@ -2,9 +2,6 @@
 BR2_aarch64=y
 BR2_cortex_a72=y
 
-# patches
-BR2_GLOBAL_PATCH_DIR="board/freescale/common/patches"
-
 # Toolchain
 # Linux headers same as kernel, a 5.10 series
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
@@ -27,9 +24,6 @@ BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(LINUX_DIR)/arch/arm64/configs/lsdk.con
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="freescale/fsl-ls1028a-rdb"
 BR2_LINUX_KERNEL_INSTALL_TARGET=y
-
-# Target package
-BR2_PACKAGE_QORIQ_CADENCE_DP_FIRMWARE=y
 
 # Filesystem
 BR2_TARGET_ROOTFS_EXT2=y

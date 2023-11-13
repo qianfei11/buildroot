@@ -32,6 +32,7 @@ IMAGEMAGICK_CONF_OPTS = \
 	--without-fpx \
 	--without-gslib \
 	--without-gvc \
+	--without-heic \
 	--without-jbig \
 	--without-jxl \
 	--without-lqr \
@@ -81,13 +82,6 @@ IMAGEMAGICK_CONF_OPTS += --with-lcms
 IMAGEMAGICK_DEPENDENCIES += lcms2
 else
 IMAGEMAGICK_CONF_OPTS += --without-lcms
-endif
-
-ifeq ($(BR2_PACKAGE_LIBHEIF),y)
-IMAGEMAGICK_CONF_OPTS += --with-heic
-IMAGEMAGICK_DEPENDENCIES += libheif
-else
-IMAGEMAGICK_CONF_OPTS += --without-heic
 endif
 
 ifeq ($(BR2_PACKAGE_LIBPNG),y)

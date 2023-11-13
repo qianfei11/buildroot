@@ -4,14 +4,13 @@
 #
 ################################################################################
 
-LIBSSH2_VERSION = 1.11.0
-LIBSSH2_SOURCE= libssh2-$(LIBSSH2_VERSION).tar.xz
+LIBSSH2_VERSION = 1.10.0
 LIBSSH2_SITE = https://www.libssh2.org/download
 LIBSSH2_LICENSE = BSD
 LIBSSH2_LICENSE_FILES = COPYING
 LIBSSH2_CPE_ID_VENDOR = libssh2
 LIBSSH2_INSTALL_STAGING = YES
-LIBSSH2_CONF_OPTS = --disable-examples-build --disable-rpath
+LIBSSH2_CONF_OPTS = --disable-examples-build
 
 ifeq ($(BR2_PACKAGE_LIBSSH2_MBEDTLS),y)
 LIBSSH2_DEPENDENCIES += mbedtls

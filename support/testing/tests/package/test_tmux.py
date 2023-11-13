@@ -9,7 +9,6 @@ class TestTmux(infra.basetest.BRTest):
         BR2_PACKAGE_TMUX=y
         BR2_TARGET_ROOTFS_CPIO=y
         # BR2_TARGET_ROOTFS_TAR is not set
-        BR2_GENERATE_LOCALE="C.UTF-8"
         """
 
     def test_run(self):

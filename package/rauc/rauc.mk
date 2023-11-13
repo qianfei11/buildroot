@@ -4,17 +4,16 @@
 #
 ################################################################################
 
-RAUC_VERSION = 1.10.1
+RAUC_VERSION = 1.8
 RAUC_SITE = https://github.com/rauc/rauc/releases/download/v$(RAUC_VERSION)
 RAUC_SOURCE = rauc-$(RAUC_VERSION).tar.xz
 RAUC_LICENSE = LGPL-2.1
 RAUC_LICENSE_FILES = COPYING
 RAUC_CPE_ID_VENDOR = pengutronix
 RAUC_DEPENDENCIES = host-pkgconf openssl libglib2
-RAUC_CONF_OPTS += -Dtests=false
 
 ifeq ($(BR2_PACKAGE_RAUC_DBUS),y)
-RAUC_CONF_OPTS += -Dservice=true
+RAUC_CONF_OPTS += --enable-service
 RAUC_DEPENDENCIES += dbus
 
 # systemd service uses dbus interface
@@ -29,35 +28,35 @@ endef
 endif
 
 else
-RAUC_CONF_OPTS += -Dservice=false
+RAUC_CONF_OPTS += --disable-service
 endif
 
 ifeq ($(BR2_PACKAGE_RAUC_GPT),y)
-RAUC_CONF_OPTS += -Dgpt=enabled
+RAUC_CONF_OPTS += --enable-gpt
 RAUC_DEPENDENCIES += util-linux-libs
 else
-RAUC_CONF_OPTS += -Dgpt=disabled
+RAUC_CONF_OPTS += --disable-gpt
 endif
 
 ifeq ($(BR2_PACKAGE_RAUC_NETWORK),y)
-RAUC_CONF_OPTS += -Dnetwork=true
+RAUC_CONF_OPTS += --enable-network
 RAUC_DEPENDENCIES += libcurl
 else
-RAUC_CONF_OPTS += -Dnetwork=false
+RAUC_CONF_OPTS += --disable-network
 endif
 
 ifeq ($(BR2_PACKAGE_RAUC_JSON),y)
-RAUC_CONF_OPTS += -Djson=enabled
+RAUC_CONF_OPTS += --enable-json
 RAUC_DEPENDENCIES += json-glib
 else
-RAUC_CONF_OPTS += -Djson=disabled
+RAUC_CONF_OPTS += --disable-json
 endif
 
 ifeq ($(BR2_PACKAGE_RAUC_STREAMING),y)
-RAUC_CONF_OPTS += -Dstreaming=true
+RAUC_CONF_OPTS += --enable-streaming
 RAUC_DEPENDENCIES += libnl
 else
-RAUC_CONF_OPTS += -Dstreaming=false
+RAUC_CONF_OPTS += --disable-streaming
 endif
 
 HOST_RAUC_DEPENDENCIES = \
@@ -66,13 +65,12 @@ HOST_RAUC_DEPENDENCIES = \
 	host-libglib2 \
 	host-squashfs \
 	$(if $(BR2_PACKAGE_HOST_LIBP11),host-libp11)
-
 HOST_RAUC_CONF_OPTS += \
-	-Dnetwork=false \
-	-Dstreaming=false \
-	-Djson=disabled \
-	-Dservice=false \
-	-Dtests=false
+	--disable-network \
+	--disable-json \
+	--disable-service \
+	--without-dbuspolicydir \
+	--with-systemdunitdir=no
 
-$(eval $(meson-package))
-$(eval $(host-meson-package))
+$(eval $(autotools-package))
+$(eval $(host-autotools-package))

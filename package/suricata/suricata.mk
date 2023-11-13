@@ -4,12 +4,13 @@
 #
 ################################################################################
 
-SURICATA_VERSION = 6.0.15
+SURICATA_VERSION = 6.0.6
 SURICATA_SITE = https://www.openinfosecfoundation.org/download
 SURICATA_LICENSE = GPL-2.0
 SURICATA_LICENSE_FILES = COPYING LICENSE
 SURICATA_CPE_ID_VENDOR = oisf
-# 0001-configure.ac-allow-the-user-to-override-RUST_TARGET.patch
+# 0001-python-ensure-proper-shabang-on-python-scripts.patch
+# 0002-configure.ac-allow-the-user-to-override-RUST_TARGET.patch
 SURICATA_AUTORECONF = YES
 
 SURICATA_DEPENDENCIES = \
@@ -28,7 +29,7 @@ SURICATA_DEPENDENCIES = \
 
 SURICATA_CONF_ENV = \
 	ac_cv_path_HAVE_SPHINXBUILD=no \
-	CARGO_HOME=$(BR_CARGO_HOME) \
+	CARGO_HOME=$(HOST_DIR)/share/cargo \
 	RUST_TARGET=$(RUSTC_TARGET_NAME)
 
 SURICATA_CONF_OPTS = \

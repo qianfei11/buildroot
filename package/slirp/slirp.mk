@@ -14,7 +14,4 @@ SLIRP_CPE_ID_PRODUCT = libslirp
 SLIRP_INSTALL_STAGING = YES
 SLIRP_DEPENDENCIES = libglib2
 
-HOST_SLIRP_DEPENDENCIES = host-libglib2
-
 $(eval $(meson-package))
-$(eval $(host-meson-package))

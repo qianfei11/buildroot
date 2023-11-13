@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-GNUPLOT_VERSION = 5.4.9
+GNUPLOT_VERSION = 5.4.5
 GNUPLOT_SITE = http://downloads.sourceforge.net/project/gnuplot/gnuplot/$(GNUPLOT_VERSION)
 GNUPLOT_LICENSE = gnuplot license (open source)
 GNUPLOT_LICENSE_FILES = Copyright
@@ -23,8 +23,7 @@ GNUPLOT_CONF_OPTS = \
 	--disable-wxwidgets \
 	--without-lua \
 	--without-latex \
-	--without-cairo \
-	--without-qt
+	--without-cairo
 
 # relocation truncated to fit: R_68K_GOT16O
 ifeq ($(BR2_m68k_cf),y)
