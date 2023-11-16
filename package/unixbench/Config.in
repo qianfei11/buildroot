@@ -8,4 +8,3 @@ config BR2_PACKAGE_UNIXBENCH
       by many people over the years.
 
       https://github.com/kdlucas/byte-unixbench
-
